@@ -1,0 +1,164 @@
+[gd_scene load_steps=8 format=3 uid="uid://36ldbh7wa012"]
+
+[ext_resource type="Script" path="res://musicgen.gd" id="1_tfcxn"]
+[ext_resource type="AudioStream" uid="uid://bije4yyf5xfig" path="res://piano-c3.wav" id="2_uduvb"]
+[ext_resource type="AudioStream" uid="uid://crvol2y4ixwx3" path="res://violin-c3.wav" id="3_kmr5k"]
+[ext_resource type="AudioStream" uid="uid://ranru8fqimyy" path="res://acoustic-kick.wav" id="4_mgw7b"]
+[ext_resource type="AudioStream" uid="uid://dfnvc1cs6ylgi" path="res://snare.wav" id="5_5yvp3"]
+[ext_resource type="Script" path="res://BPMValue.gd" id="5_lhvgq"]
+[ext_resource type="AudioStream" uid="uid://dc1ivfmx81fh3" path="res://snare2.wav" id="6_w1jsb"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_tfcxn")
+
+[node name="MelodyPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_uduvb")
+bus = &"Main"
+
+[node name="ChordPlayer1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_kmr5k")
+bus = &"Chords"
+
+[node name="ChordPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_kmr5k")
+bus = &"Chords"
+
+[node name="Drum" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_mgw7b")
+volume_db = -10.0
+bus = &"Drums"
+
+[node name="Drum2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_5yvp3")
+volume_db = -10.0
+bus = &"Drums"
+
+[node name="Drum3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_w1jsb")
+volume_db = -10.0
+bus = &"Drums"
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 1148.0
+offset_bottom = 646.0
+tooltip_text = "Play"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_right = 1146.0
+offset_bottom = 252.0
+
+[node name="Play" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Play
+"
+
+[node name="Stop" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Stop"
+
+[node name="Generate" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Generate"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "BPM"
+
+[node name="BPMValue" type="Label" parent="Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "120	"
+script = ExtResource("5_lhvgq")
+
+[node name="BPM" type="HSlider" parent="Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+min_value = 60.0
+max_value = 240.0
+step = 10.0
+value = 120.0
+ticks_on_borders = true
+
+[node name="Main" type="HBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Main"]
+layout_mode = 2
+text = "Main Instrument:  "
+
+[node name="MainInstrument" type="OptionButton" parent="Panel/VBoxContainer/Main"]
+layout_mode = 2
+
+[node name="Reverb" type="CheckBox" parent="Panel/VBoxContainer/Main"]
+layout_mode = 2
+button_pressed = true
+text = "reverb"
+
+[node name="Chorus" type="CheckBox" parent="Panel/VBoxContainer/Main"]
+layout_mode = 2
+button_pressed = true
+text = "Chorus
+"
+
+[node name="VolumeLabel" type="Label" parent="Panel/VBoxContainer/Main"]
+layout_mode = 2
+text = "volume "
+
+[node name="Volume" type="HSlider" parent="Panel/VBoxContainer/Main"]
+custom_minimum_size = Vector2(400, 30)
+layout_mode = 2
+max_value = 6400.0
+value = 4900.0
+
+[node name="Chords" type="HBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Chords"]
+layout_mode = 2
+text = "Chord Instrument:  "
+
+[node name="ChordInstrument" type="OptionButton" parent="Panel/VBoxContainer/Chords"]
+layout_mode = 2
+
+[node name="Reverb" type="CheckBox" parent="Panel/VBoxContainer/Chords"]
+layout_mode = 2
+button_pressed = true
+text = "reverb"
+
+[node name="Chorus" type="CheckBox" parent="Panel/VBoxContainer/Chords"]
+layout_mode = 2
+button_pressed = true
+text = "Chorus
+"
+
+[node name="VolumeLabel" type="Label" parent="Panel/VBoxContainer/Chords"]
+layout_mode = 2
+text = "volume "
+
+[node name="Volume" type="HSlider" parent="Panel/VBoxContainer/Chords"]
+custom_minimum_size = Vector2(400, 30)
+layout_mode = 2
+max_value = 6400.0
+value = 3025.0
+
+[connection signal="pressed" from="Panel/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Play" to="." method="play"]
+[connection signal="pressed" from="Panel/VBoxContainer/Stop" to="." method="stop"]
+[connection signal="pressed" from="Panel/VBoxContainer/Generate" to="." method="generate_verse"]
+[connection signal="drag_ended" from="Panel/VBoxContainer/HBoxContainer/BPM" to="." method="update_bpm"]
+[connection signal="value_changed" from="Panel/VBoxContainer/HBoxContainer/BPM" to="Panel/VBoxContainer/HBoxContainer/BPMValue" method="_on_bpm_value_changed"]
+[connection signal="item_selected" from="Panel/VBoxContainer/Main/MainInstrument" to="." method="update_main_instrument"]
+[connection signal="toggled" from="Panel/VBoxContainer/Main/Reverb" to="." method="toggle_effect" binds= ["Main", "Reverb"]]
+[connection signal="toggled" from="Panel/VBoxContainer/Main/Chorus" to="." method="toggle_effect" binds= ["Main", "Chorus"]]
+[connection signal="value_changed" from="Panel/VBoxContainer/Main/Volume" to="." method="change_volume" binds= ["Main"]]
+[connection signal="item_selected" from="Panel/VBoxContainer/Chords/ChordInstrument" to="." method="update_chords_instrument"]
+[connection signal="toggled" from="Panel/VBoxContainer/Chords/Reverb" to="." method="toggle_effect" binds= ["Chord", "Reverb"]]
+[connection signal="toggled" from="Panel/VBoxContainer/Chords/Chorus" to="." method="toggle_effect" binds= ["Chord", "Chorus"]]
+[connection signal="value_changed" from="Panel/VBoxContainer/Chords/Volume" to="." method="change_volume" binds= ["Chord"]]

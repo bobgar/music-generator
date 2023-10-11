@@ -1,0 +1,48 @@
+[gd_resource type="AudioBusLayout" load_steps=5 format=3 uid="uid://bfn4ksh3v5yk1"]
+
+[sub_resource type="AudioEffectChorus" id="AudioEffectChorus_qtgtr"]
+resource_name = "Chorus"
+wet = 0.3
+
+[sub_resource type="AudioEffectReverb" id="AudioEffectReverb_c4ojk"]
+resource_name = "Reverb"
+room_size = 0.4
+damping = 0.75
+
+[sub_resource type="AudioEffectChorus" id="AudioEffectChorus_t0jqb"]
+resource_name = "Chorus"
+wet = 0.3
+
+[sub_resource type="AudioEffectReverb" id="AudioEffectReverb_pgrv7"]
+resource_name = "Reverb"
+room_size = 0.4
+damping = 0.75
+
+[resource]
+bus/0/volume_db = -5.04538
+bus/1/name = &"Main"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = -10.0692
+bus/1/send = &"Master"
+bus/1/effect/0/effect = SubResource("AudioEffectChorus_qtgtr")
+bus/1/effect/0/enabled = true
+bus/1/effect/1/effect = SubResource("AudioEffectReverb_c4ojk")
+bus/1/effect/1/enabled = true
+bus/2/name = &"Chords"
+bus/2/solo = false
+bus/2/mute = false
+bus/2/bypass_fx = false
+bus/2/volume_db = -24.9389
+bus/2/send = &"Master"
+bus/2/effect/0/effect = SubResource("AudioEffectChorus_t0jqb")
+bus/2/effect/0/enabled = true
+bus/2/effect/1/effect = SubResource("AudioEffectReverb_pgrv7")
+bus/2/effect/1/enabled = true
+bus/3/name = &"Drums"
+bus/3/solo = false
+bus/3/mute = false
+bus/3/bypass_fx = false
+bus/3/volume_db = 0.0
+bus/3/send = &"Master"

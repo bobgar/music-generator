@@ -1,0 +1,49 @@
+[gd_scene load_steps=4 format=3 uid="uid://0o8urcd8lgya"]
+
+[ext_resource type="Script" path="res://musicgen.gd" id="1_tfcxn"]
+[ext_resource type="AudioStream" uid="uid://crvol2y4ixwx3" path="res://55888__ldk1609__violin-arco-non-vib-c3.wav" id="2_brqlv"]
+[ext_resource type="AudioStream" uid="uid://ranru8fqimyy" path="res://371192__karolist__acoustic-kick.wav" id="3_orf55"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_tfcxn")
+
+[node name="MelodyPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_brqlv")
+volume_db = -10.0
+
+[node name="ChordPlayer1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_brqlv")
+volume_db = -25.0
+
+[node name="ChordPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_brqlv")
+volume_db = -25.0
+
+[node name="Drum" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_orf55")
+volume_db = -10.0
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 1148.0
+offset_bottom = 646.0
+tooltip_text = "Play"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Play" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Play
+"
+
+[node name="Stop" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Stop"
+
+[connection signal="pressed" from="Panel/VBoxContainer/Play" to="." method="play"]
+[connection signal="pressed" from="Panel/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Stop" to="." method="stop"]
