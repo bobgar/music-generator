@@ -96,6 +96,23 @@ text = "Main Instrument:  "
 [node name="MainInstrument" type="OptionButton" parent="Panel/VBoxContainer/Main"]
 layout_mode = 2
 
+[node name="InstrumentScaleLabel" type="Label" parent="Panel/VBoxContainer/Main"]
+layout_mode = 2
+text = "Scale"
+
+[node name="InstrumentScale" type="OptionButton" parent="Panel/VBoxContainer/Main"]
+layout_mode = 2
+item_count = 4
+selected = 0
+popup/item_0/text = "Pentatonic"
+popup/item_0/id = 0
+popup/item_1/text = "Major"
+popup/item_1/id = 1
+popup/item_2/text = "Minor Pentatonic"
+popup/item_2/id = 3
+popup/item_3/text = "Minor"
+popup/item_3/id = 2
+
 [node name="Reverb" type="CheckBox" parent="Panel/VBoxContainer/Main"]
 layout_mode = 2
 button_pressed = true
@@ -120,12 +137,29 @@ value = 4900.0
 [node name="Chords" type="HBoxContainer" parent="Panel/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Panel/VBoxContainer/Chords"]
+[node name="ChordInstrumentLabel" type="Label" parent="Panel/VBoxContainer/Chords"]
 layout_mode = 2
 text = "Chord Instrument:  "
 
 [node name="ChordInstrument" type="OptionButton" parent="Panel/VBoxContainer/Chords"]
 layout_mode = 2
+
+[node name="ChordScaleLabel" type="Label" parent="Panel/VBoxContainer/Chords"]
+layout_mode = 2
+text = "Scale"
+
+[node name="ChordScale" type="OptionButton" parent="Panel/VBoxContainer/Chords"]
+layout_mode = 2
+item_count = 4
+selected = 1
+popup/item_0/text = "Pentatonic"
+popup/item_0/id = 0
+popup/item_1/text = "Major"
+popup/item_1/id = 1
+popup/item_2/text = "Minor Pentatonic"
+popup/item_2/id = 3
+popup/item_3/text = "Minor"
+popup/item_3/id = 2
 
 [node name="Reverb" type="CheckBox" parent="Panel/VBoxContainer/Chords"]
 layout_mode = 2
@@ -155,10 +189,12 @@ value = 3025.0
 [connection signal="drag_ended" from="Panel/VBoxContainer/HBoxContainer/BPM" to="." method="update_bpm"]
 [connection signal="value_changed" from="Panel/VBoxContainer/HBoxContainer/BPM" to="Panel/VBoxContainer/HBoxContainer/BPMValue" method="_on_bpm_value_changed"]
 [connection signal="item_selected" from="Panel/VBoxContainer/Main/MainInstrument" to="." method="update_main_instrument"]
+[connection signal="item_selected" from="Panel/VBoxContainer/Main/InstrumentScale" to="." method="update_main_scale"]
 [connection signal="toggled" from="Panel/VBoxContainer/Main/Reverb" to="." method="toggle_effect" binds= ["Main", "Reverb"]]
 [connection signal="toggled" from="Panel/VBoxContainer/Main/Chorus" to="." method="toggle_effect" binds= ["Main", "Chorus"]]
 [connection signal="value_changed" from="Panel/VBoxContainer/Main/Volume" to="." method="change_volume" binds= ["Main"]]
 [connection signal="item_selected" from="Panel/VBoxContainer/Chords/ChordInstrument" to="." method="update_chords_instrument"]
+[connection signal="item_selected" from="Panel/VBoxContainer/Chords/ChordScale" to="." method="update_chord_scale"]
 [connection signal="toggled" from="Panel/VBoxContainer/Chords/Reverb" to="." method="toggle_effect" binds= ["Chord", "Reverb"]]
 [connection signal="toggled" from="Panel/VBoxContainer/Chords/Chorus" to="." method="toggle_effect" binds= ["Chord", "Chorus"]]
 [connection signal="value_changed" from="Panel/VBoxContainer/Chords/Volume" to="." method="change_volume" binds= ["Chord"]]

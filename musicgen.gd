@@ -37,7 +37,7 @@ var audio_players:Array
 var allowed_durations:Array = [1,2,4,8, 16]
 
 #probabilities
-var chance_of_chord:Array = [.95, .01, .1, .01, .4, .01, .1, .01, .8, .01, .1, .01, .4, .01, .1, .01]
+var chance_of_chord:Array = [.95, .01, .1, .01, .3, .01, .1, .01, .6, .01, .1, .01, .3, .01, .1, .01]
 var chance_of_note_at_subbeat:Array = [.95, .01, .025, .01, .4, .01, .025, .01, .8, .01,  .025, .01, .4, .01,  .025, .01]
 var chance_of_change_dir:Array = [.2, .4, .6, .6, .6, .6, .6]
 var chance_of_step:Array = [.3, .9, .95, .975, .9825, 1.0]
@@ -46,6 +46,7 @@ var chance_of_step:Array = [.3, .9, .95, .975, .9825, 1.0]
 var major:Array = [0,2,4,5,7,9,11]
 var minor:Array = [0,2,3,5,7,8,10]
 var pentatonic:Array = [0,2,4,7,9]
+var minor_pentatonic:Array = [0,3,5,7,10]
 
 var speeds:Array = []
 
@@ -53,6 +54,12 @@ var cumulative_duration:float = 0
 var cur_note_index:int = 0
 
 var is_playing:bool = false
+
+var scales:Array = [pentatonic, major,minor_pentatonic,  minor]
+var main_scale:Array = pentatonic
+var chord_scale:Array = major
+
+var cur_beat = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -80,14 +87,16 @@ func update_bpm(changed:bool=true):
 
 func update_main_instrument(ind:int):
 	player.stream = instruments[ind]
-	pass
 	
 func update_chords_instrument(ind:int):
 	chord1.stream = instruments[ind]
 	chord2.stream = instruments[ind]
-	pass
 
-var cur_beat = 0
+func update_main_scale(ind:int):
+	main_scale = scales[ind]
+
+func update_chord_scale(ind:int):
+	chord_scale = scales[ind]
 
 func _process(delta):
 	if !is_playing:
@@ -128,14 +137,14 @@ func _play_sound(p:int, a:AudioStreamPlayer):
 
 func generate_verse():
 	notes = []
-	var motif = _create_parameterized_bar()
+	var motif = _create_parameterized_bar(main_scale, chord_scale)
 	notes += motif
-	var variant = _create_parameterized_bar(pentatonic, major, motif.slice(0,32), 32)
+	var variant = _create_parameterized_bar(main_scale, chord_scale, motif.slice(0,32), 32)
 	notes += variant
-	var turn = _create_parameterized_bar(pentatonic, major, [], 64, false)
+	var turn = _create_parameterized_bar(main_scale, chord_scale, [], 64, false)
 	notes += turn
 	#var variant2 = _create_parameterized_bar(pentatonic, major, motif.slice(0,31), 32, true, true)
-	var variant2 = make_basic_end(pentatonic, major, motif.slice(0,32), 31 )
+	var variant2 = make_basic_end(main_scale, chord_scale, motif.slice(0,32), 31 )
 	notes += variant2
 	cur_beat = 0
 	cumulative_duration = 0
